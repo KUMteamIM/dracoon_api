@@ -7,10 +7,15 @@ require "rest-client"
 
 # API documentation: https://mit-dataspace.lmu-klinikum.de/api
 module DracoonApi
-  def initialize; end
-  
+  class << self
+    attr_accessor :login, :password
+
+    def config
+      yield self
+    end
+  end
+
   class Error < StandardError; end
-  # Your code goes here...
 
   def self.auth_token(login, password)
     response = RestClient.post basic_url + auth_endpoint,
@@ -23,8 +28,8 @@ module DracoonApi
   end
 
   def self.basic_get_request(login, password, endpoint, options = {})
-    response = RestClient.get "#{basic_url}#{endpoint}?#{options.to_s}",
-                              { :accept => :json, 'X-Sds-Auth-Token' => auth_token(login, password) }
+    response = RestClient.get "#{basic_url}#{endpoint}?#{options}",
+                              { :accept => :json, "X-Sds-Auth-Token" => auth_token(login, password) }
     JSON.parse(response)
   end
 
@@ -36,5 +41,4 @@ module DracoonApi
   def self.auth_endpoint
     "auth/login"
   end
-  
 end
