@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "dracoon_api"
+require "../lib/dracoon_api"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

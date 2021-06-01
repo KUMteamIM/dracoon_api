@@ -7,6 +7,8 @@ require "rest-client"
 
 # API documentation: https://mit-dataspace.lmu-klinikum.de/api
 module DracoonApi
+  def initialize; end
+  
   class Error < StandardError; end
   # Your code goes here...
 
@@ -29,5 +31,3 @@ module DracoonApi
     "auth/login"
   end
 end
-
-puts DracoonApi.auth_token
