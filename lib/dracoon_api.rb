@@ -5,6 +5,7 @@ require "dotenv/load"
 require "json"
 require "rest-client"
 
+# API documentation: https://mit-dataspace.lmu-klinikum.de/api
 module DracoonApi
   class Error < StandardError; end
   # Your code goes here...
