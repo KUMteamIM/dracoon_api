@@ -14,4 +14,10 @@ RSpec.describe DracoonApi do
   it "basic_get_request, with valid login, endpoint and no options, returns valid output" do
     expect(DracoonApi.basic_get_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "nodes")).to be_truthy
   end
+
+  it "basic_post_request, with valid login, endpoint and options, returns valid output" do
+    expect(DracoonApi.basic_post_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "auth/reset_password", {
+                                           "userName": ENV["DRACOON_LOGIN"]
+                                         })).to be_truthy
+  end
 end
