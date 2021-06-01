@@ -22,6 +22,12 @@ module DracoonApi
     @auth_token ||= JSON.parse(response)["token"]
   end
 
+  def self.basic_get_request(login, password, endpoint, options = {})
+    response = RestClient.get "#{basic_url}#{endpoint}?#{options.to_s}",
+                              { :accept => :json, 'X-Sds-Auth-Token' => auth_token(login, password) }
+    JSON.parse(response)
+  end
+
   # Dracoon-Endpoints
   def self.basic_url
     "https://mit-dataspace.lmu-klinikum.de/api/v4/"
@@ -30,4 +36,5 @@ module DracoonApi
   def self.auth_endpoint
     "auth/login"
   end
+  
 end
