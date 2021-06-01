@@ -8,6 +8,6 @@ RSpec.describe DracoonApi do
   end
 
   it " def auth_token delivers a valid auth token" do
-    expect(DracoonApi.auth_token).to match(/([A-Z])\w/)
+    expect(DracoonApi.auth_token(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])).to match(/([A-Z])\w/)
   end
 end

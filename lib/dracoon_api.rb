@@ -12,11 +12,11 @@ module DracoonApi
   class Error < StandardError; end
   # Your code goes here...
 
-  def self.auth_token
+  def self.auth_token(login, password)
     response = RestClient.post basic_url + auth_endpoint,
                                {
-                                 "login" => ENV["DRACOON_LOGIN"],
-                                 "password" => ENV["DRACOON_PASSWORD"],
+                                 "login" => login,
+                                 "password" => password,
                                  "authType" => "sql"
                                }.to_json, { content_type: :json, accept: :json }
     @auth_token ||= JSON.parse(response)["token"]
