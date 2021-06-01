@@ -7,7 +7,7 @@ RSpec.describe DracoonApi do
     expect(DracoonApi::VERSION).not_to be nil
   end
 
-  it "def auth_token delivers, with valid input, delivers a valid auth token" do
+  it "def auth_token delivers, with valid input, a valid auth token" do
     expect(DracoonApi.auth_token(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])).to match(/([A-Z])\w/)
   end
 

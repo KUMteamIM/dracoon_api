@@ -5,8 +5,7 @@ require "dotenv/load"
 require "json"
 require "rest-client"
 
-# API documentation: https://mit-dataspace.lmu-klinikum.de/api
-module DracoonApi
+# API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
   class << self
     attr_accessor :login, :password
 
@@ -35,12 +34,12 @@ module DracoonApi
 
   def self.basic_post_request(login, password, endpoint, options = {})
     RestClient.post "#{basic_url}#{endpoint}", options.to_json,
-                    { content_type: :json, accept: :json, 'X-Sds-Auth-Token' => auth_token(login, password) }
+                    { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(login, password) }
   end
 
   # Dracoon-Endpoints
   def self.basic_url
-    "https://mit-dataspace.lmu-klinikum.de/api/v4/"
+    ENV["BASIC_URL"].to_s
   end
 
   def self.auth_endpoint
