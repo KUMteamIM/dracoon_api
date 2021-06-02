@@ -17,7 +17,12 @@ RSpec.describe DracoonApi do
 
   it "basic_post_request, with valid login, endpoint and options, returns valid output" do
     expect(DracoonApi.basic_post_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "auth/reset_password", {
-                                           "userName": ENV["DRACOON_LOGIN"]
+                                           userName: ENV["DRACOON_LOGIN"]
                                          })).to be_truthy
+  end
+
+  it "able to download file" do
+    expect(DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], 1088)).to be_truthy
+    # be_truthy sinnvoll? Smelly
   end
 end

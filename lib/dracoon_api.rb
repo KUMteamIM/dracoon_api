@@ -6,6 +6,7 @@ require "json"
 require "rest-client"
 
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
+module DracoonApi
   class << self
     attr_accessor :login, :password
 
@@ -37,9 +38,25 @@ require "rest-client"
                     { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(login, password) }
   end
 
+  def self.create_singular_file_download(login, password,file_id)
+    download_url = JSON.parse(
+      RestClient::Request.execute(
+        method: :post,
+        url: "#{basic_url}#{file_download_endpoint(file_id)}",
+        headers: { 'X-Sds-Auth-Token' => auth_token(login, password) }
+      )
+    )['downloadUrl']
+    RestClient::Request.execute(
+      method: :get,
+      url: download_url,
+      headers: { 'X-Sds-Auth-Token' => auth_token(login, password) },
+      raw_response: true
+    )
+  end
+
   # Dracoon-Endpoints
   def self.basic_url
-    ENV["BASIC_URL"].to_s
+    ENV['BASIC_URL']
   end
 
   def self.auth_endpoint
