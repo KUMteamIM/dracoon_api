@@ -67,3 +67,5 @@ module DracoonApi
     "nodes/files/#{file_id}/downloads"
   end
 end
+
+# puts DracoonApi.auth_token(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])
