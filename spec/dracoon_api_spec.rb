@@ -24,7 +24,7 @@ RSpec.describe DracoonApi do
   end
 
   it "able to download file" do
-    expect(DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], 1088)).to be_truthy
+    expect(DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], 1089)).to be_truthy
     # be_truthy sinnvoll? Smelly
   end
 end
