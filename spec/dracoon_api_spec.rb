@@ -24,12 +24,14 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to download files" do
-    response =  DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], 1089)
+    response =  DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"])
     expect(response).to be_kind_of(RestClient::RawResponse)
   end
 
   it "is able to create download link" do
-    
+    expire_at = DateTime.now
+    response = DracoonApi.create_download_link(ENV["PARENT_ID"], expire_at, ENV["DRACOON_PASSWORD"])
+    expect(response).to be_truthy
   end
   
 end
