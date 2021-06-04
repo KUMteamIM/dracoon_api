@@ -38,28 +38,32 @@ module DracoonApi
                     { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(login, password) }
   end
 
-  def self.create_singular_file_download(login, password,file_id)
+  def self.create_singular_file_download(login, password, file_id)
     download_url = JSON.parse(
       RestClient::Request.execute(
         method: :post,
         url: "#{basic_url}#{file_download_endpoint(file_id)}",
-        headers: { 'X-Sds-Auth-Token' => auth_token(login, password) }
+        headers: { "X-Sds-Auth-Token" => auth_token(login, password) }
       )
-    )['downloadUrl']
+    )["downloadUrl"]
     RestClient::Request.execute(
       method: :get,
       url: download_url,
-      headers: { 'X-Sds-Auth-Token' => auth_token(login, password) },
+      headers: { "X-Sds-Auth-Token" => auth_token(login, password) },
       raw_response: true
     )
   end
 
   # Dracoon-Endpoints
   def self.basic_url
-    ENV['BASIC_URL']
+    ENV["BASIC_URL"]
   end
 
   def self.auth_endpoint
     "auth/login"
+  end
+
+  def self.file_download_endpoint(file_id)
+    "nodes/files/#{file_id}/downloads"
   end
 end
