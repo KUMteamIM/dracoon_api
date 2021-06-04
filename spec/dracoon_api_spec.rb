@@ -12,7 +12,8 @@ RSpec.describe DracoonApi do
   end
 
   it "basic_get_request, with valid login, endpoint and no options, returns valid output" do
-    expect(DracoonApi.basic_get_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "nodes")).to be_truthy
+    response = DracoonApi.basic_get_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "nodes")
+    expect(response).to include("items")
   end
 
   it "basic_post_request, with valid login, endpoint and options, returns valid output" do
@@ -25,4 +26,5 @@ RSpec.describe DracoonApi do
     expect(DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], 1088)).to be_truthy
     # be_truthy sinnvoll? Smelly
   end
+  
 end
