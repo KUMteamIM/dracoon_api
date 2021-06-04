@@ -17,14 +17,14 @@ RSpec.describe DracoonApi do
   end
 
   it "basic_post_request, with valid login, endpoint and options, returns valid output" do
+    # if successful, response is empty
     expect(DracoonApi.basic_post_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "auth/reset_password", {
                                            userName: ENV["DRACOON_LOGIN"]
-                                         })).to be_truthy
+                                         })).to match("")
   end
 
   it "able to download file" do
     expect(DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], 1088)).to be_truthy
     # be_truthy sinnvoll? Smelly
   end
-  
 end
