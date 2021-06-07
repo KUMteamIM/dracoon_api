@@ -18,9 +18,11 @@ RSpec.describe DracoonApi do
 
   it "gets successful responses to POSTS requests" do
     # if successful, response is empty
-    expect(DracoonApi.basic_post_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "auth/reset_password", {
-                                           userName: ENV["DRACOON_LOGIN"]
-                                         })).to match("")
+    response = DracoonApi.basic_post_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "nodes/#{ENV["FILE_ID"]}/comments", {
+        "text": "string"
+      
+    })
+    expect(response).to include("createdAt")
   end
 
   it "is able to download files" do

@@ -88,4 +88,4 @@ end
 
  # puts DracoonApi.auth_token(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])
 
-puts DracoonApi.create_download_link(ENV["PARENT_ID"], DateTime.now, ENV["DRACOON_PASSWORD"])
+# puts DracoonApi.create_download_link(ENV["PARENT_ID"], DateTime.now, ENV["DRACOON_PASSWORD"])
