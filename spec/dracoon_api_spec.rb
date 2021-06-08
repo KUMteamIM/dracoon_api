@@ -36,4 +36,11 @@ RSpec.describe DracoonApi do
                                                "3000-07-08T09:01:14.080Z")
     expect(response).to match(/([A-Z])\w/)
   end
+
+  it "is able to create an upload link" do
+    # expire in year 3000
+    response = DracoonApi.create_upload_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["PARENT_ID"],
+                                             "3000-07-08T09:01:14.080Z")
+    expect(response).to match(/([A-Z])\w/)
+  end
 end
