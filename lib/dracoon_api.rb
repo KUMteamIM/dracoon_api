@@ -65,6 +65,15 @@ module DracoonApi
     JSON.parse(basic_post_request(login, password, share_upload_endpoint, options))["accessKey"]
   end
 
+  def self.create_room(login, password, name, parent_id, permissioned_groups = [])
+    options = {
+      name: name, 
+      parentId: parent_id,
+      adminGroupIds: permissioned_groups
+    }
+    basic_post_request(login, password, rooms_endpoint, options)
+  end
+
   def self.expiration(expiration_date)
     if expiration_date
       { enableExpiration: true, expireAt: expiration_date.to_s }
@@ -92,5 +101,9 @@ module DracoonApi
 
   def self.share_upload_endpoint
     "shares/uploads"
+  end
+
+  def self.rooms_endpoint
+    'nodes/rooms'
   end
 end

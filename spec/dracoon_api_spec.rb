@@ -3,6 +3,12 @@
 require "./spec_helper"
 
 RSpec.describe DracoonApi do
+  
+  # before(:each) do
+   # DracoonApi.login = ENV["DRACOON_LOGIN"]
+   # DracoonApi.password = ENV["DRACOON_PASSWORD"]
+ # end
+ 
   it "has a version number" do
     expect(DracoonApi::VERSION).not_to be nil
   end
@@ -31,16 +37,22 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to create download link" do
-    # expire in year 3000
-    response = DracoonApi.create_download_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"],
-                                               "3000-07-08T09:01:14.080Z")
+    expire_at = "3000-07-08T09:01:14.080Z"
+    response = DracoonApi.create_download_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"], expire_at)
     expect(response).to match(/([A-Z])\w/)
   end
 
   it "is able to create an upload link" do
-    # expire in year 3000
-    response = DracoonApi.create_upload_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["PARENT_ID"],
-                                             "3000-07-08T09:01:14.080Z")
+    expire_at = "3000-07-08T09:01:14.080Z"
+    response = DracoonApi.create_upload_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["PARENT_ID"], expire_at)
     expect(response).to match(/([A-Z])\w/)
   end
+
+  it "is able to create a room" do
+    test_group = [1]
+    random_room_name = (0...8).map { (65 + rand(26)).chr }.join
+    response = DracoonApi.create_room(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], random_room_name, ENV["PARENT_ID"], test_group)
+    expect(response).to include("timestampCreation")
+  end
+  
 end
