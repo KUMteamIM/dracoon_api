@@ -54,10 +54,10 @@ module DracoonApi
     )
   end
 
-  def self.create_download_link(login, password, node_id, expiration_date = '')
-    options = { nodeId: node_id, password: password}.merge(expiration: expiration(expiration_date))
+  def self.create_download_link(login, password, node_id, expiration_date = "")
+    options = { nodeId: node_id, password: password }.merge(expiration: expiration(expiration_date))
 
-    JSON.parse(basic_post_request(login, password, share_download_endpoint, options))['accessKey']
+    JSON.parse(basic_post_request(login, password, share_download_endpoint, options))["accessKey"]
   end
 
   def self.expiration(expiration_date)
@@ -82,6 +82,6 @@ module DracoonApi
   end
 
   def self.share_download_endpoint
-    'shares/downloads'
+    "shares/downloads"
   end
 end
