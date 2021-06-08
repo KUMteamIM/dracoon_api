@@ -74,6 +74,12 @@ module DracoonApi
     basic_post_request(login, password, rooms_endpoint, options)
   end
 
+  def self.create_folder(login, password, name, parent_id)
+    options = { name: name, parentId: parent_id }
+    basic_post_request(login, password, folders_endpoint, options)
+  end
+
+
   def self.expiration(expiration_date)
     if expiration_date
       { enableExpiration: true, expireAt: expiration_date.to_s }
@@ -105,5 +111,9 @@ module DracoonApi
 
   def self.rooms_endpoint
     'nodes/rooms'
+  end
+
+  def self.folders_endpoint
+    'nodes/folders'
   end
 end
