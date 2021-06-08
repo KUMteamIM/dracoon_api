@@ -5,6 +5,7 @@ require "dotenv/load"
 require "json"
 require "rest-client"
 
+
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
 module DracoonApi
   class << self
@@ -67,7 +68,7 @@ module DracoonApi
 
   def self.create_room(login, password, name, parent_id, permissioned_groups = [])
     options = {
-      name: name, 
+      name: name,
       parentId: parent_id,
       adminGroupIds: permissioned_groups
     }
@@ -79,13 +80,23 @@ module DracoonApi
     basic_post_request(login, password, folders_endpoint, options)
   end
 
-
   def self.expiration(expiration_date)
     if expiration_date
       { enableExpiration: true, expireAt: expiration_date.to_s }
     else
       { enableExpiration: false }
     end
+  end
+
+  def self.create_file_on_dracoon(login, password, file, folder_id, expiration_date)
+    puts "Requesting Upload-Channel for#{file}"
+    options = { name: file, parentId: folder_id }.merge(expiration: expiration(expiration_date))
+    open_channel_request = basic_post_request(login, password,upload_channel_endpoint, options)
+    upload_url = JSON.parse(open_channel_request)['uploadUrl']
+    puts "Uploading file #{file}"
+    RestClient.post upload_url, file: file
+    puts "Closing Channel for file #{file}"
+    RestClient.put upload_url, {}.to_json, { content_type: :json, accept: :json }
   end
 
   # Dracoon-Endpoints
@@ -110,10 +121,15 @@ module DracoonApi
   end
 
   def self.rooms_endpoint
-    'nodes/rooms'
+    "nodes/rooms"
   end
 
   def self.folders_endpoint
-    'nodes/folders'
+    "nodes/folders"
+  end
+
+  def self.upload_channel_endpoint
+    # init file upload and select room or folder id
+    'nodes/files/uploads'
   end
 end
