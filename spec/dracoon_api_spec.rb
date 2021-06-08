@@ -31,7 +31,8 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to create download link" do
-    response = DracoonApi.create_download_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"],"2021-07-08T09:01:14.080Z")
+    #expire in year 3000
+    response = DracoonApi.create_download_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"], "3000-07-08T09:01:14.080Z")
     expect(response).to match(/([A-Z])\w/)
   end
 end
