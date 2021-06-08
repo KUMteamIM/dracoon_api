@@ -88,14 +88,14 @@ module DracoonApi
     end
   end
 
-  def self.create_file_on_dracoon(login, password, file, folder_id, expiration_date)
-    puts "Requesting Upload-Channel for#{file}"
-    options = { name: file, parentId: folder_id }.merge(expiration: expiration(expiration_date))
+  def self.create_file_on_dracoon(login, password, file, file_name, folder_id, expiration_date)
+    puts "Requesting Upload-Channel for file #{file_name}"
+    options = { name: file_name, parentId: folder_id }.merge(expiration: expiration(expiration_date))
     open_channel_request = basic_post_request(login, password,upload_channel_endpoint, options)
     upload_url = JSON.parse(open_channel_request)['uploadUrl']
-    puts "Uploading file #{file}"
+    puts "Uploading file #{file_name}"
     RestClient.post upload_url, file: file
-    puts "Closing Channel for file #{file}"
+    puts "Closing Channel for file #{file_name}"
     RestClient.put upload_url, {}.to_json, { content_type: :json, accept: :json }
   end
 

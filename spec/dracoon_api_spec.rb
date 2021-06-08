@@ -5,7 +5,7 @@ require "./spec_helper"
 RSpec.describe DracoonApi do
   before(:each) do
     @expire_at = "3000-07-08T09:01:14.080Z"
-    @random_room_name = (0...8).map { rand(65..90).chr }.join
+    @random_name = (0...8).map { rand(65..90).chr }.join
     # DracoonApi.login = ENV["DRACOON_LOGIN"]
     # DracoonApi.password = ENV["DRACOON_PASSWORD"]
   end
@@ -51,20 +51,21 @@ RSpec.describe DracoonApi do
 
   it "is able to create a room" do
     test_group = [1]
-    response = DracoonApi.create_room(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_room_name,
+    response = DracoonApi.create_room(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
                                       ENV["PARENT_ID"], test_group)
     expect(response).to include("timestampCreation")
   end
 
   it "is able to create a folder" do
-    response = DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_room_name,
+    response = DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
                                         ENV["PARENT_ID"])
     expect(response).to include("timestampCreation")
   end
 
   it "is able to create a file" do
     file = DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"])
-    response = DracoonApi.create_file_on_dracoon(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], file, ENV["PARENT_ID"], @expire_at)
-    expect(response).to include("uploadUrl")
+    response = DracoonApi.create_file_on_dracoon(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], file, @random_name, ENV["PARENT_ID"],
+                                                 @expire_at)
+    expect(response).to include("fileType")
   end
 end
