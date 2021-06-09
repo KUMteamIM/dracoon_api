@@ -9,29 +9,32 @@ require "rest-client"
 # set login and password using dotenv
 # see https://github.com/bkeepers/dotenv
 # DracoonApi.login = ENV[YOUR LOGIN]
-# DracoonApi.password = ENV[YOUR PASSWORD] 
+# DracoonApi.password = ENV[YOUR PASSWORD]
+
 module DracoonApi
   # getter and setter for login and password
   class << self
     attr_accessor :login, :password
   end
 
-  # Line 19? Ask Rouven for explaination
+  ## Line 19? Ask Rouven for explaination
   class Error < StandardError; end
 
-  def self.auth_token(login, password)
-      response = RestClient.post basic_url + auth_endpoint,
-                                 {
-                                   "login" => DracoonApi.login,
-                                   "password" => DracoonApi.password,
-                                   "authType" => "sql"
-                                 }.to_json, { content_type: :json, accept: :json }
-      @auth_token ||= JSON.parse(response)["token"]
+  ## make private mehtod?
+  def self.auth_token(_login, _password)
+    response = RestClient.post basic_url + auth_endpoint,
+                               {
+                                 "login" => DracoonApi.login,
+                                 "password" => DracoonApi.password,
+                                 "authType" => "sql"
+                               }.to_json, { content_type: :json, accept: :json }
+    @auth_token ||= JSON.parse(response)["token"]
   end
 
   def self.basic_get_request(endpoint, options = {})
     response = RestClient.get "#{basic_url}#{endpoint}?#{options}",
-                              { :accept => :json, "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
+                              { :accept => :json,
+                                "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
     JSON.parse(response)
   end
 
@@ -102,7 +105,8 @@ module DracoonApi
 
   def self.delete_file(file_id)
     RestClient.delete "#{basic_url}#{nodes_endpoint}/#{file_id}",
-                      { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
+                      { content_type: :json, accept: :json,
+                        "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
   end
 
   # query and getter helper methods
@@ -116,6 +120,7 @@ module DracoonApi
   end
 
   # Dracoon-Endpoints
+
   def self.basic_url
     ENV["BASIC_URL"]
   end
