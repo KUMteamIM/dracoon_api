@@ -13,6 +13,7 @@ require "rest-client"
 
 module DracoonApi
   # getter and setter for login and password
+  ## Go through with Rouven again
   class << self
     attr_accessor :login, :password
   end

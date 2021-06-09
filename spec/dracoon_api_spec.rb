@@ -76,8 +76,13 @@ RSpec.describe DracoonApi do
     response = DracoonApi.delete_file(node_id_to_delete)
     expect(response).not_to include("errorCode")
   end
-  it "is able to GET list of nodes" do
+
+  it "is able to get list of nodes" do
     response = DracoonApi.all_nodes
     expect(response).to include("items")
+  end
+
+  it "is able to get a node (room, folder or file)" do
+    DracoonApi.nodes_getter(ENV["PARENT_ID"])
   end
 end
