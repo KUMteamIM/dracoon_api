@@ -120,6 +120,10 @@ module DracoonApi
     basic_get_request(nodes_endpoint, { parent_id: parent_id })
   end
 
+  def self.nodes_query(query)
+    basic_get_request(nodes_search_endpoint, { search_string: query, depth_level: -1 })
+  end
+
   # Dracoon-Endpoints
 
   def self.basic_url
@@ -157,5 +161,9 @@ module DracoonApi
 
   def self.nodes_endpoint
     "nodes"
+  end
+
+  def self.nodes_search_endpoint
+    "#{nodes_endpoint}/search"
   end
 end

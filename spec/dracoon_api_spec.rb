@@ -85,4 +85,10 @@ RSpec.describe DracoonApi do
   it "is able to get a node (room, folder or file)" do
     DracoonApi.nodes_getter(ENV["PARENT_ID"])
   end
+
+  it "is able to search nodes (room, folder or file)" do
+   response = DracoonApi.nodes_query('foo')
+   expect(response).to include("items")
+  end
+  
 end
