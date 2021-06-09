@@ -6,14 +6,14 @@ require "json"
 require "rest-client"
 
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
+# set login and password using dotenv
+# see https://github.com/bkeepers/dotenv
+# DracoonApi.login = ENV[YOUR LOGIN]
+# DracoonApi.password = ENV[YOUR PASSWORD] 
 module DracoonApi
-  # set login and password using dotenv eg. DracoonApi.login = ENV[YOUR PASSWORD]
+  # getter and setter for login and password
   class << self
     attr_accessor :login, :password
-
-    def config
-      yield self
-    end
   end
 
   # Line 19? Ask Rouven for explaination
