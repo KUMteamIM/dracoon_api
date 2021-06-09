@@ -5,7 +5,6 @@ require "dotenv/load"
 require "json"
 require "rest-client"
 
-
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
 module DracoonApi
   class << self
@@ -91,12 +90,17 @@ module DracoonApi
   def self.create_file_on_dracoon(login, password, file, file_name, folder_id, expiration_date)
     puts "Requesting Upload-Channel for file #{file_name}"
     options = { name: file_name, parentId: folder_id }.merge(expiration: expiration(expiration_date))
-    open_channel_request = basic_post_request(login, password,upload_channel_endpoint, options)
-    upload_url = JSON.parse(open_channel_request)['uploadUrl']
+    open_channel_request = basic_post_request(login, password, upload_channel_endpoint, options)
+    upload_url = JSON.parse(open_channel_request)["uploadUrl"]
     puts "Uploading file #{file_name}"
     RestClient.post upload_url, file: file
     puts "Closing Channel for file #{file_name}"
     RestClient.put upload_url, {}.to_json, { content_type: :json, accept: :json }
+  end
+
+  def self.delete_file(login, password, file_id)
+    RestClient.delete "#{basic_url}#{nodes_endpoint}/#{file_id}",
+                      { content_type: :json, accept: :json, 'X-Sds-Auth-Token' => auth_token(login, password) }
   end
 
   # Dracoon-Endpoints
@@ -130,6 +134,10 @@ module DracoonApi
 
   def self.upload_channel_endpoint
     # init file upload and select room or folder id
-    'nodes/files/uploads'
+    "nodes/files/uploads"
+  end
+
+  def self.nodes_endpoint
+    'nodes'
   end
 end
