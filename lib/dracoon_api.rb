@@ -100,7 +100,7 @@ module DracoonApi
 
   def self.delete_file(login, password, file_id)
     RestClient.delete "#{basic_url}#{nodes_endpoint}/#{file_id}",
-                      { content_type: :json, accept: :json, 'X-Sds-Auth-Token' => auth_token(login, password) }
+                      { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(login, password) }
   end
 
   # Dracoon-Endpoints
@@ -138,6 +138,6 @@ module DracoonApi
   end
 
   def self.nodes_endpoint
-    'nodes'
+    "nodes"
   end
 end

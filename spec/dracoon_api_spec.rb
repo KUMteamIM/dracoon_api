@@ -70,11 +70,9 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to delete a node (room, folder or file)" do
-    create_folder_response = DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
-      ENV["PARENT_ID"])
-    node_id_to_delete = JSON.parse(create_folder_response)["id"]
+    node_id_to_delete = JSON.parse(DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
+                                                            ENV["PARENT_ID"]))["id"]
     response = DracoonApi.delete_file(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], node_id_to_delete)
     expect(response).not_to include("errorCode")
   end
-  
 end
