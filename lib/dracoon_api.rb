@@ -15,6 +15,7 @@ module DracoonApi
     end
   end
 
+  # Line 19? Ask Rouven for explaination
   class Error < StandardError; end
 
   def self.auth_token(login, password)
@@ -101,6 +102,17 @@ module DracoonApi
   def self.delete_file(login, password, file_id)
     RestClient.delete "#{basic_url}#{nodes_endpoint}/#{file_id}",
                       { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(login, password) }
+  end
+
+  # query and getter helper methods
+
+  def self.all_nodes(login, password)
+    basic_get_request(login, password, nodes_endpoint)
+  end
+
+
+  def self.nodes_getter(parent_id)
+    basic_get_request(nodes_endpoint, { parent_id: parent_id })
   end
 
   # Dracoon-Endpoints
