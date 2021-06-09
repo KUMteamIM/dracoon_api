@@ -59,7 +59,7 @@ RSpec.describe DracoonApi do
   it "is able to create a folder" do
     response = DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
                                         ENV["PARENT_ID"])
-    expect(response).to include("timestampCreation")
+    expect(response).to include("\"type\" : \"folder\"")
   end
 
   it "is able to create a file" do
