@@ -53,7 +53,7 @@ RSpec.describe DracoonApi do
     test_group = [1]
     response = DracoonApi.create_room(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
                                       ENV["PARENT_ID"], test_group)
-    expect(response).to include("timestampCreation")
+    expect(response).to include("\"type\" : \"room\"")
   end
 
   it "is able to create a folder" do
