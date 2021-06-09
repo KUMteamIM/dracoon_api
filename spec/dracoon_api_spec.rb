@@ -4,7 +4,8 @@ require "./spec_helper"
 
 RSpec.describe DracoonApi do
   before(:all) do
-    @auth_token = DracoonApi.auth_token(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])
+    DracoonApi.login = ENV["DRACOON_LOGIN"]
+    DracoonApi.password = ENV["DRACOON_PASSWORD"]
     @expire_at = "3000-07-08T09:01:14.080Z"
   end
 
@@ -17,12 +18,12 @@ RSpec.describe DracoonApi do
   end
 
   it "outputs a valid auth token" do
-    expect(DracoonApi.auth_token(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])).to match(/([A-Z])\w/)
+    expect(DracoonApi.auth_token(DracoonApi.login, DracoonApi.password)).to match(/([A-Z])\w/)
   end
 
   it "makes successful POST requests" do
     # if successful, response is empty
-    response = DracoonApi.basic_post_request(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], "nodes/#{ENV["FILE_ID"]}/comments", {
+    response = DracoonApi.basic_post_request("nodes/#{ENV["FILE_ID"]}/comments", {
                                                text: "string"
 
                                              })
@@ -30,52 +31,53 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to download files" do
-    response = DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"],
-                                                        ENV["FILE_ID"])
+    response = DracoonApi.create_singular_file_download(
+      ENV["FILE_ID"]
+    )
     expect(response).to be_kind_of(RestClient::RawResponse)
   end
 
   it "is able to create download link" do
-    response = DracoonApi.create_download_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["FILE_ID"],
+    response = DracoonApi.create_download_link(ENV["FILE_ID"],
                                                @expire_at)
     expect(response).to match(/([A-Z])\w/)
   end
 
   it "is able to create an upload link" do
-    response = DracoonApi.create_upload_link(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], ENV["PARENT_ID"],
+    response = DracoonApi.create_upload_link(ENV["PARENT_ID"],
                                              @expire_at)
     expect(response).to match(/([A-Z])\w/)
   end
 
   it "is able to create a room" do
     test_group = [1]
-    response = DracoonApi.create_room(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
+    response = DracoonApi.create_room(@random_name,
                                       ENV["PARENT_ID"], test_group)
     expect(response).to include("\"type\" : \"room\"")
   end
 
   it "is able to create a folder" do
-    response = DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
+    response = DracoonApi.create_folder(@random_name,
                                         ENV["PARENT_ID"])
     expect(response).to include("\"type\" : \"folder\"")
   end
 
   it "is able to create a file" do
-    file = DracoonApi.create_singular_file_download(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"],
-                                                    ENV["FILE_ID"])
-    response = DracoonApi.create_file_on_dracoon(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], file, @random_name, ENV["PARENT_ID"],
-                                                 @expire_at)
+    file = DracoonApi.create_singular_file_download(
+      ENV["FILE_ID"]
+    )
+    response = DracoonApi.create_file_on_dracoon(file, @random_name, ENV["PARENT_ID"], @expire_at)
     expect(response).to include("fileType")
   end
 
   it "is able to delete a node (room, folder or file)" do
-    node_id_to_delete = JSON.parse(DracoonApi.create_folder(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], @random_name,
+    node_id_to_delete = JSON.parse(DracoonApi.create_folder(@random_name,
                                                             ENV["PARENT_ID"]))["id"]
-    response = DracoonApi.delete_file(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"], node_id_to_delete)
+    response = DracoonApi.delete_file(node_id_to_delete)
     expect(response).not_to include("errorCode")
   end
   it "is able to GET list of nodes" do
-    response = DracoonApi.all_nodes(ENV["DRACOON_LOGIN"], ENV["DRACOON_PASSWORD"])
+    response = DracoonApi.all_nodes
     expect(response).to include("items")
   end
 end
