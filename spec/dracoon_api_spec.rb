@@ -90,5 +90,11 @@ RSpec.describe DracoonApi do
    response = DracoonApi.nodes_query('foo')
    expect(response).to include("items")
   end
+
+  it "is able to get a list of user groups" do
+    response = DracoonApi.groups
+    expect(response).to include("items")
+  end
+  
   
 end
