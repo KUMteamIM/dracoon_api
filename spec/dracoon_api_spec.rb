@@ -6,6 +6,7 @@ RSpec.describe DracoonApi do
   before(:all) do
     DracoonApi.login = ENV["DRACOON_LOGIN"]
     DracoonApi.password = ENV["DRACOON_PASSWORD"]
+    DracoonApi.basic_url = ENV["BASIC_URL"]
     @expire_at = "3000-07-08T09:01:14.080Z"
   end
 

@@ -6,22 +6,23 @@ require "json"
 require "rest-client"
 
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
-# set login and password using dotenv
+# set login, password and your basic_url (your individual Dracoon URL) using dotenv
 # see https://github.com/bkeepers/dotenv
 # DracoonApi.login = ENV[YOUR LOGIN]
 # DracoonApi.password = ENV[YOUR PASSWORD]
+# DracoonApi.basic_url = ENV[YOUR BASIC_URL]
 
 module DracoonApi
   # getter and setter for login and password
   ## Go through with Rouven again
   class << self
-    attr_accessor :login, :password
+    attr_accessor :login, :password, :basic_url
   end
 
-  ## Line 19? Ask Rouven for explaination
+  ## Ask Rouven
   class Error < StandardError; end
 
-  ## make private mehtod?
+  ## make private method?
   def self.auth_token(_login, _password)
     response = RestClient.post basic_url + auth_endpoint,
                                {
@@ -129,10 +130,6 @@ module DracoonApi
   end
 
   # Dracoon-Endpoints
-
-  def self.basic_url
-    ENV["BASIC_URL"]
-  end
 
   def self.auth_endpoint
     "auth/login"

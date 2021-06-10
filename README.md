@@ -1,5 +1,7 @@
 # DracoonApi
 
+TODO: Logging
+
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/dracoon_api`. To experiment with that code, run `bin/console` for an interactive prompt.
 
