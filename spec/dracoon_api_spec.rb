@@ -18,6 +18,7 @@ RSpec.describe DracoonApi do
     expect(DracoonApi::VERSION).not_to be nil
   end
 
+  ## RB: regex auch nach Laenge, fuer die anderen auch
   it "outputs a valid auth token" do
     expect(DracoonApi.auth_token(DracoonApi.login, DracoonApi.password)).to match(/([A-Z])\w/)
   end
@@ -54,6 +55,7 @@ RSpec.describe DracoonApi do
     test_group = [1]
     response = DracoonApi.create_room(@random_name,
                                       ENV["PARENT_ID"], test_group)
+                                      ## Lesbarkeit verbessern, siehe RB Slack msg, s.u, auch fuer folder.
     expect(response).to include("\"type\" : \"room\"")
   end
 
@@ -87,9 +89,11 @@ RSpec.describe DracoonApi do
     DracoonApi.nodes_getter(ENV["PARENT_ID"])
   end
 
+  ## mit pry reingehen, im Gemfile in dev dependencies
   it "is able to search nodes (room, folder or file)" do
-   response = DracoonApi.nodes_query('foo')
-   expect(response).to include("items")
+   response = DracoonApi.nodes_query('personal')
+   parsed_response = JSON.parse(response)
+   expect(parsed_response).to include("items")
   end
 
   it "is able to get a list of user groups" do

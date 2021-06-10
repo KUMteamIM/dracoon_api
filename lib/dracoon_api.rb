@@ -20,18 +20,7 @@ module DracoonApi
   end
 
   ## Ask Rouven
-  class Error < StandardError; end
-
-  ## make private method?
-  def self.auth_token(_login, _password)
-    response = RestClient.post basic_url + auth_endpoint,
-                               {
-                                 "login" => DracoonApi.login,
-                                 "password" => DracoonApi.password,
-                                 "authType" => "sql"
-                               }.to_json, { content_type: :json, accept: :json }
-    @auth_token ||= JSON.parse(response)["token"]
-  end
+  ## class Error < StandardError; end
 
   def self.basic_get_request(endpoint, options = {})
     response = RestClient.get "#{basic_url}#{endpoint}?#{options}",
@@ -170,5 +159,16 @@ module DracoonApi
 
   def self.groups_endpoint
     'groups'
+  end
+
+  private
+  def self.auth_token(_login, _password)
+    response = RestClient.post basic_url + auth_endpoint,
+                              {
+                                "login" => DracoonApi.login,
+                                "password" => DracoonApi.password,
+                                "authType" => "sql"
+                              }.to_json, { content_type: :json, accept: :json }
+    @auth_token ||= JSON.parse(response)["token"]
   end
 end
