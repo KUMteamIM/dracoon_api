@@ -88,8 +88,7 @@ RSpec.describe DracoonApi do
 
   it "is able to get a node (room, folder or file)" do
     response = DracoonApi.nodes_getter(ENV["PARENT_ID"])
-    # finish
-    expect(response).to
+    expect(response).to include("items")
   end
 
   ## mit pry reingehen, im Gemfile in dev dependencies
