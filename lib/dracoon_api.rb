@@ -23,15 +23,16 @@ module DracoonApi
   ## class Error < StandardError; end
 
   def self.basic_get_request(endpoint, options = {})
-    response = RestClient.get "#{basic_url}#{endpoint}?#{options}",
+    url = "#{basic_url}#{endpoint}?#{URI.encode_www_form(options)}"
+    response = RestClient.get url,
                               { :accept => :json,
-                                "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
+                                "X-Sds-Auth-Token" => auth_token }
     JSON.parse(response)
   end
 
   def self.basic_post_request(endpoint, options = {})
     RestClient.post "#{basic_url}#{endpoint}", options.to_json,
-                    { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
+                    { content_type: :json, accept: :json, "X-Sds-Auth-Token" => auth_token }
   end
 
   def self.create_singular_file_download(file_id)
@@ -39,13 +40,13 @@ module DracoonApi
       RestClient::Request.execute(
         method: :post,
         url: "#{basic_url}#{file_download_endpoint(file_id)}",
-        headers: { "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
+        headers: { "X-Sds-Auth-Token" => auth_token }
       )
     )["downloadUrl"]
     RestClient::Request.execute(
       method: :get,
       url: download_url,
-      headers: { "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) },
+      headers: { "X-Sds-Auth-Token" => auth_token },
       raw_response: true
     )
   end
@@ -97,7 +98,7 @@ module DracoonApi
   def self.delete_file(file_id)
     RestClient.delete "#{basic_url}#{nodes_endpoint}/#{file_id}",
                       { content_type: :json, accept: :json,
-                        "X-Sds-Auth-Token" => auth_token(DracoonApi.login, DracoonApi.password) }
+                        "X-Sds-Auth-Token" => auth_token }
   end
 
   # query and getter helper methods
@@ -111,7 +112,6 @@ module DracoonApi
   end
 
   def self.nodes_query(query)
-    binding.pry
     basic_get_request(nodes_search_endpoint, { search_string: query, depth_level: -1 })
   end
 
@@ -163,7 +163,7 @@ module DracoonApi
   end
 
   private
-  def self.auth_token(_login, _password)
+  def self.auth_token
     response = RestClient.post basic_url + auth_endpoint,
                               {
                                 "login" => DracoonApi.login,

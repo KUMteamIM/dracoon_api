@@ -21,7 +21,7 @@ RSpec.describe DracoonApi do
 
   ## RB: regex auch nach Laenge, fuer die anderen auch
   it "outputs a valid auth token" do
-    expect(DracoonApi.auth_token(DracoonApi.login, DracoonApi.password)).to match(/([A-Z])\w/)
+    expect(DracoonApi.auth_token).to match(/([A-Z])\w/)
   end
 
   it "makes successful POST requests" do
@@ -87,14 +87,15 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to get a node (room, folder or file)" do
-    DracoonApi.nodes_getter(ENV["PARENT_ID"])
+    response = DracoonApi.nodes_getter(ENV["PARENT_ID"])
+    # finish
+    expect(response).to
   end
 
   ## mit pry reingehen, im Gemfile in dev dependencies
   it "is able to search nodes (room, folder or file)" do
    response = DracoonApi.nodes_query('personal')
-   parsed_response = JSON.parse(response)
-   expect(parsed_response).to include("items")
+   expect(response).to include("items")
   end
 
   it "is able to get a list of user groups" do
