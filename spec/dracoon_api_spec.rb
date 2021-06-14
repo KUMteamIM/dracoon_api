@@ -91,7 +91,6 @@ RSpec.describe DracoonApi do
     expect(response).to include("items")
   end
 
-  ## mit pry reingehen, im Gemfile in dev dependencies
   it "is able to search nodes (room, folder or file)" do
    response = DracoonApi.nodes_query('personal')
    expect(response).to include("items")

@@ -19,9 +19,6 @@ module DracoonApi
     attr_accessor :login, :password, :basic_url
   end
 
-  ## Ask Rouven
-  ## class Error < StandardError; end
-
   def self.basic_get_request(endpoint, options = {})
     url = "#{basic_url}#{endpoint}?#{URI.encode_www_form(options)}"
     response = RestClient.get url,

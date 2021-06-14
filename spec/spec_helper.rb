@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require "../lib/dracoon_api"
+require "rspec/json_expectations"
+
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
