@@ -19,9 +19,8 @@ RSpec.describe DracoonApi do
     expect(DracoonApi::VERSION).not_to be nil
   end
 
-  ## RB: regex auch nach Laenge, fuer die anderen auch
   it "outputs a valid auth token" do
-    expect(DracoonApi.auth_token).to match(/([A-Z])\w/)
+    expect(DracoonApi.auth_token).to match(/\w{32}/)
   end
 
   it "makes successful POST requests" do
@@ -40,16 +39,16 @@ RSpec.describe DracoonApi do
     expect(response).to be_kind_of(RestClient::RawResponse)
   end
 
-  it "is able to create download link" do
+  it "is able to create a download link and retrieve an access key" do
     response = DracoonApi.create_download_link(ENV["FILE_ID"],
                                                @expire_at)
-    expect(response).to match(/([A-Z])\w/)
+    expect(response).to match(/\w{32}/)
   end
 
-  it "is able to create an upload link" do
+  it "is able to create an upload link and retrieve an access key" do
     response = DracoonApi.create_upload_link(ENV["PARENT_ID"],
                                              @expire_at)
-    expect(response).to match(/([A-Z])\w/)
+    expect(response).to match(/\w{32}/)
   end
 
   it "is able to create a room" do
