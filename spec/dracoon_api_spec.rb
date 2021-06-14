@@ -55,14 +55,13 @@ RSpec.describe DracoonApi do
     test_group = [1]
     response = DracoonApi.create_room(@random_name,
                                       ENV["PARENT_ID"], test_group)
-                                      ## Lesbarkeit verbessern, siehe RB Slack msg, s.u, auch fuer folder.
-    expect(response).to include("\"type\" : \"room\"")
+    expect(response).to include_json("type": "room")
   end
 
   it "is able to create a folder" do
     response = DracoonApi.create_folder(@random_name,
                                         ENV["PARENT_ID"])
-    expect(response).to include("\"type\" : \"folder\"")
+    expect(response).to include_json("type": "folder")
   end
 
   it "is able to create a file" do
