@@ -111,6 +111,7 @@ module DracoonApi
   end
 
   def self.nodes_query(query)
+    binding.pry
     basic_get_request(nodes_search_endpoint, { search_string: query, depth_level: -1 })
   end
 
