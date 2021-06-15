@@ -156,17 +156,16 @@ module DracoonApi
   end
 
   def self.groups_endpoint
-    'groups'
+    "groups"
   end
 
-  private
   def self.auth_token
     response = RestClient.post basic_url + auth_endpoint,
-                              {
-                                "login" => DracoonApi.login,
-                                "password" => DracoonApi.password,
-                                "authType" => "sql"
-                              }.to_json, { content_type: :json, accept: :json }
+                               {
+                                 "login" => DracoonApi.login,
+                                 "password" => DracoonApi.password,
+                                 "authType" => "sql"
+                               }.to_json, { content_type: :json, accept: :json }
     @auth_token ||= JSON.parse(response)["token"]
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "./spec_helper"
-require 'pry'
+require "pry"
 
 RSpec.describe DracoonApi do
   before(:all) do
@@ -55,13 +55,13 @@ RSpec.describe DracoonApi do
     test_group = [1]
     response = DracoonApi.create_room(@random_name,
                                       ENV["PARENT_ID"], test_group)
-    expect(response).to include_json("type": "room")
+    expect(response).to include_json(type: "room")
   end
 
   it "is able to create a folder" do
     response = DracoonApi.create_folder(@random_name,
                                         ENV["PARENT_ID"])
-    expect(response).to include_json("type": "folder")
+    expect(response).to include_json(type: "folder")
   end
 
   it "is able to create a file" do
@@ -90,14 +90,12 @@ RSpec.describe DracoonApi do
   end
 
   it "is able to search nodes (room, folder or file)" do
-   response = DracoonApi.nodes_query('personal')
-   expect(response).to include("items")
+    response = DracoonApi.nodes_query("personal")
+    expect(response).to include("items")
   end
 
   it "is able to get a list of user groups" do
     response = DracoonApi.groups
     expect(response).to include("items")
   end
-  
-  
 end
