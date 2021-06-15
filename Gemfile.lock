@@ -1,45 +1,19 @@
 PATH
   remote: .
   specs:
-    dracoon_api (0.1.0)
+    dracoon_api (0.2.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    diff-lcs (1.4.4)
-    domain_name (0.5.20190701)
-      unf (>= 0.0.5, < 1.0.0)
-    dotenv (2.7.6)
-    http-cookie (1.0.3)
-      domain_name (~> 0.5)
-    json (2.5.1)
-    mime-types (2.99.3)
-    netrc (0.11.0)
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
     rainbow (3.0.0)
     rake (13.0.3)
     regexp_parser (2.1.1)
-    rest-client (1.8.0)
-      http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
     rexml (3.2.5)
-    rspec (3.10.0)
-      rspec-core (~> 3.10.0)
-      rspec-expectations (~> 3.10.0)
-      rspec-mocks (~> 3.10.0)
-    rspec-core (3.10.1)
-      rspec-support (~> 3.10.0)
-    rspec-expectations (3.10.1)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-mocks (3.10.2)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-support (3.10.2)
     rubocop (1.16.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
@@ -52,21 +26,14 @@ GEM
     rubocop-ast (1.7.0)
       parser (>= 3.0.1.1)
     ruby-progressbar (1.11.0)
-    unf (0.1.4)
-      unf_ext
-    unf_ext (0.0.7.7)
     unicode-display_width (2.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  dotenv (~> 2.1, >= 2.1.1)
   dracoon_api!
-  json (~> 2.5, >= 2.5.1)
   rake (~> 13.0)
-  rest-client (~> 1.8)
-  rspec (~> 3.2)
   rubocop (~> 1.7)
 
 BUNDLED WITH
