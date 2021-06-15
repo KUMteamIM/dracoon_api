@@ -4,8 +4,9 @@ require_relative "dracoon_api/version"
 require "dotenv/load"
 require "json"
 require "rest-client"
-
+require("logger")
 # API documentation: https://dracoon.team/api/swagger-ui/index.html?configUrl=/api/spec_v4/swagger-config#/
+
 # set login, password and your basic_url (your individual Dracoon URL) using dotenv
 # see https://github.com/bkeepers/dotenv
 # DracoonApi.login = ENV[YOUR LOGIN]
@@ -18,6 +19,15 @@ module DracoonApi
   class << self
     attr_accessor :login, :password, :basic_url
   end
+  
+  def create_logger 
+    logger = Logger.new("logfile.log", 'daily')
+  end
+  
+  def self.logger_rescue(options, endpoint, e)
+    logger.error "#{e}, context: dracoon_request_params: { options: #{options}, endpoint: #{endpoint} }"
+    
+  end
 
   def self.basic_get_request(endpoint, options = {})
     url = "#{basic_url}#{endpoint}?#{URI.encode_www_form(options)}"
@@ -25,6 +35,8 @@ module DracoonApi
                               { :accept => :json,
                                 "X-Sds-Auth-Token" => auth_token }
     JSON.parse(response)
+  rescue RestClient::Exception => e
+    logger_rescue(options, endpoint, e)
   end
 
   def self.basic_post_request(endpoint, options = {})
@@ -170,3 +182,8 @@ module DracoonApi
     @auth_token ||= JSON.parse(response)["token"]
   end
 end
+
+DracoonApi.login = ENV["DRACOON_LOGIN"]
+  DracoonApi.password = ENV["DRACOON_PASSWORD"]
+    DracoonApi.basic_url = ENV["BASIC_URL"]
+puts DracoonApi.basic_get_request(DracoonApi.nodes_getter(1))
